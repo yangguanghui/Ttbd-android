@@ -2,28 +2,41 @@ package com.example.ygh.ttbd.main;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.ashokvarma.bottomnavigation.BottomNavigationBar;
+import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.example.ygh.ttbd.AppConst;
 import com.example.ygh.ttbd.R;
 import com.example.ygh.ttbd.databinding.ActivityMainBinding;
-import com.example.ygh.ttbd.guide.GuideActivity;
+import com.example.ygh.ttbd.home.HomeFragment;
 import com.example.ygh.ttbd.util.T;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends RxAppCompatActivity implements View.OnClickListener,
-                                                                 MainContract.View
+                                                                 MainContract.View,
+                                                                 BottomNavigationBar
+                                                                         .OnTabSelectedListener
 {
     public static final String TAG = MainActivity.class.getSimpleName();
 
     protected TextView mHello;
+
+    @BindView(R.id.container_main)
+    FrameLayout         mContainerMain;
+    @BindView(R.id.bottom_navigation_bar)
+    BottomNavigationBar mBottomNavigationBar;
 
     private MainContract.Presenter mPresenter;
 
@@ -31,17 +44,35 @@ public class MainActivity extends RxAppCompatActivity implements View.OnClickLis
 
     private ProgressDialog mProgressDialog;
 
+    private HomeFragment mHomeFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
 
-        mBinding = DataBindingUtil
-                .setContentView(this, R.layout.activity_main);
+        super.setContentView(R.layout.activity_main);
 
         mPresenter = new MainPresenter(this);
         setPresenter(mPresenter);
         mPresenter.start();
+
+        ButterKnife.bind(this);
+
+        initView();
+
+    }
+
+    private void initBottomNavigationBar()
+    {
+
+        mBottomNavigationBar
+                .addItem(new BottomNavigationItem(android.R.drawable.sym_def_app_icon, "HOME"))
+                .addItem(new BottomNavigationItem(android.R.drawable.sym_def_app_icon, "HOME"))
+                .addItem(new BottomNavigationItem(android.R.drawable.sym_def_app_icon, "HOME"))
+                .addItem(new BottomNavigationItem(android.R.drawable.sym_def_app_icon, "home"))
+                .setFirstSelectedPosition(0).setTabSelectedListener(this)
+                .initialise();
     }
 
     @Override
@@ -128,42 +159,97 @@ public class MainActivity extends RxAppCompatActivity implements View.OnClickLis
     @Override
     public void showGuidePages()
     {
-        startActivity(new Intent(this, GuideActivity.class));
-    }
-
-    // 显示欢迎页
-    // 获取首页数据
-    // 显示首页
-    String s = "http://www.weather.com.cn/data/sk/101010100.html";
-
-    @Override
-    public void onClick(View view)
-    {
-//        if (view.getId() == R.id.hello)
-        {
-            T.showShort(MainActivity.this, "clicked me");
-        }
-        //        else if (view.getId() == R.id.tvVerCode)
-        //        {
-        //
-        //        }
-        //        else if (view.getId() == R.id.tvVerName)
-        //        {
-        //
-        //        }
-        //        else if (view.getId() == R.id.tvUrl)
-        //        {
-        //
-        //        }
-        //        else if (view.getId() == R.id.tvId)
-        //        {
-        //
-        //        }
+//        startActivity(new Intent(this, GuideActivity.class));
     }
 
     @Override
     public void setPresenter(MainContract.Presenter presenter)
     {
         mPresenter = presenter;
+    }
+
+    private void initView()
+    {
+        initBottomNavigationBar();
+    }
+
+    /**
+     * Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v)
+    {
+
+    }
+
+    /**
+     * Called when a tab enters the selected state.
+     *
+     * @param position The position of the tab that was selected
+     */
+    @Override
+    public void onTabSelected(int position)
+    {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        switch (position)
+        {
+            case 0:
+                if (null == mHomeFragment)
+                {
+                    mHomeFragment = new HomeFragment();
+                }
+                fragmentTransaction.replace(R.id.container_main, mHomeFragment);
+                break;
+            case 1:
+                if (null == mHomeFragment)
+                {
+                    mHomeFragment = new HomeFragment();
+                }
+                fragmentTransaction.replace(R.id.container_main, mHomeFragment);
+                break;
+            case 2:
+                if (null == mHomeFragment)
+                {
+                    mHomeFragment = new HomeFragment();
+                }
+                fragmentTransaction.replace(R.id.container_main, mHomeFragment);
+                break;
+            case 3:
+                if (null == mHomeFragment)
+                {
+                    mHomeFragment = new HomeFragment();
+                }
+                fragmentTransaction.replace(R.id.container_main, mHomeFragment);
+                break;
+            default:
+                break;
+        }
+        fragmentTransaction.commit();
+    }
+
+    /**
+     * Called when a tab exits the selected state.
+     *
+     * @param position The position of the tab that was unselected
+     */
+    @Override
+    public void onTabUnselected(int position)
+    {
+
+    }
+
+    /**
+     * Called when a tab that is already selected is chosen again by the user. Some applications
+     * may use this action to return to the top level of a category.
+     *
+     * @param position The position of the tab that was reselected.
+     */
+    @Override
+    public void onTabReselected(int position)
+    {
+
     }
 }
