@@ -39,28 +39,24 @@ import static com.example.ygh.ttbd.main.MainUtil.startDownloadApp;
  * Created by ygh on 2016/12/15.
  */
 
-public class MainPresenter implements MainContract.Presenter
-{
+public class MainPresenter implements MainContract.Presenter {
 
-    private final MainContract.View   mMainView;
-    private final Context             mContext;
+    private final MainContract.View mMainView;
+    private final Context mContext;
     private final RxAppCompatActivity mActivity;
-    private       long                mTaskDownload;
+    private long mTaskDownload;
 
     private VersionData mVersionData;
 
-    public MainPresenter(MainContract.View mainView)
-    {
+    public MainPresenter(MainContract.View mainView) {
         mMainView = mainView;
         mContext = (Context) mainView;
         mActivity = (RxAppCompatActivity) mainView;
     }
 
     @Override
-    public void doFirstRun()
-    {
-        if (NetConnectUtil.isNetConnected(mContext))
-        {
+    public void doFirstRun() {
+        if (NetConnectUtil.isNetConnected(mContext)) {
             doInstallFirst(); // 执行首次安装的任务
 
             doInstallUpdate(); // 执行安装完更新的任务
@@ -69,12 +65,11 @@ public class MainPresenter implements MainContract.Presenter
         }
 
         doShowGuidePages();
+        mMainView.showGuidePages();
     }
 
-    private void doShowGuidePages()
-    {
-        if (!isVersionEqual())
-        {
+    private void doShowGuidePages() {
+        if (!isVersionEqual()) {
             putVersionCodeEqual();
             // 显示引导页
             mMainView.showGuidePages();
@@ -83,49 +78,41 @@ public class MainPresenter implements MainContract.Presenter
 
 
     @Override
-    public void start()
-    {
+    public void start() {
         doFirstRun();
         //  显示开始页
         mMainView.showStartPage();
     }
 
-    private void doInstallUpdate()
-    {
-        if (!isVersionServerEqual())
-        {
+    private void doInstallUpdate() {
+        if (!isVersionServerEqual()) {
             // 获取App和系统信息
             Map<String, String> map = MainUtil.getInstallData(mContext, false);
 
             // 告诉服务器客户端已更新
             Api.simpleApi(Api.installUpdate(map),
-                          mActivity.<ApiReturn<Object>>bindToLifecycle())
-               .subscribe(
-                       new Action1<ApiReturn<Object>>()
-                       {
-                           @Override
-                           public void call(ApiReturn<Object> objectApiReturn)
-                           {
-                               Log.e(TAG, "Install updated ok");
-                           }
-                       },
-                       new Action1<Throwable>()
-                       {
-                           @Override
-                           public void call(Throwable throwable)
-                           {
-                               Log
-                                       .e(TAG,
-                                          "Install update error. " + throwable.getMessage());
-                           }
-                       });
-            // 保存更新后的版本号
-            putVersionCodeServerEqual();
+                    mActivity.<ApiReturn<Object>>bindToLifecycle())
+                    .subscribe(
+                            new Action1<ApiReturn<Object>>() {
+                                @Override
+                                public void call(ApiReturn<Object> objectApiReturn) {
+                                    // 保存更新后的版本号
+                                    putVersionCodeServerEqual();
+                                    Log.e(TAG, "Install updated ok");
+                                }
+                            },
+                            new Action1<Throwable>() {
+                                @Override
+                                public void call(Throwable throwable) {
+                                    Log
+                                            .e(TAG,
+                                                    "Install update error. " + throwable.getMessage());
+                                }
+                            });
         }
     }
 
-    private boolean isVersionEqual()
-    {
+    private boolean isVersionEqual() {
         // 获取版本信息
         int spVersionCode = PreferencesUtils.getInt(mContext, AppConst.VERSION_CODE);
         int versionCode = ApkUtils.getVersionCode(mContext);
@@ -133,20 +120,17 @@ public class MainPresenter implements MainContract.Presenter
         return spVersionCode == versionCode;
     }
 
-    private void putVersionCodeEqual()
-    {
+    private void putVersionCodeEqual() {
         int versionCode = ApkUtils.getVersionCode(mContext);
         PreferencesUtils.putInt(mContext, AppConst.VERSION_CODE, versionCode);
     }
 
-    private void putVersionCodeServerEqual()
-    {
+    private void putVersionCodeServerEqual() {
         int versionCode = ApkUtils.getVersionCode(mContext);
         PreferencesUtils.putInt(mContext, AppConst.VERSION_CODE_SERVER, versionCode);
     }
 
-    private boolean isVersionServerEqual()
-    {
+    private boolean isVersionServerEqual() {
         // 获取版本信息
         int spVersionCode = PreferencesUtils
                 .getInt(mContext, AppConst.VERSION_CODE_SERVER);
@@ -155,78 +139,65 @@ public class MainPresenter implements MainContract.Presenter
         return spVersionCode == versionCode;
     }
 
-    private void doInstallFirst()
-    {
-        if (!PreferencesUtils.contains(mContext, AppConst.VERSION_CODE_SERVER))
-        {
+    private void doInstallFirst() {
+        if (!PreferencesUtils.contains(mContext, AppConst.VERSION_CODE_SERVER)) {
             // 获取App和系统信息
             Map<String, String> map = MainUtil.getInstallData(mContext, true);
 
             // 告诉服务器客户端首次安装
             Api.simpleApi(Api.installFirst(map), mActivity.<ApiReturn<Object>>bindToLifecycle())
-               .subscribe(
-                       new Action1<ApiReturn<Object>>()
-                       {
-                           @Override
-                           public void call(ApiReturn<Object> objectApiReturn)
-                           {
-                               Log.e(TAG, "Install first ok");
-                           }
-                       },
-                       new Action1<Throwable>()
-                       {
-                           @Override
-                           public void call(Throwable throwable)
-                           {
-                               Log
-                                       .e(TAG,
-                                          "Install first error. " + throwable.getMessage());
-                           }
-                       });
-            // 设置版本号
-            putVersionCodeServerEqual();
+                    .subscribe(
+                            new Action1<ApiReturn<Object>>() {
+                                @Override
+                                public void call(ApiReturn<Object> objectApiReturn) {
+                                    // 设置版本号
+                                    putVersionCodeServerEqual();
+                                    Log.e(TAG, "Install first ok");
+                                }
+                            },
+                            new Action1<Throwable>() {
+                                @Override
+                                public void call(Throwable throwable) {
+                                    Log
+                                            .e(TAG,
+                                                    "Install first error. " + throwable.getMessage());
+                                }
+                            });
+
         }
     }
 
     @Override
-    public void doShowUpdateDialog(DialogInterface.OnClickListener clickListener)
-    {
+    public void doShowUpdateDialog(DialogInterface.OnClickListener clickListener) {
         MainUtil.ShowUpdateDialog(mContext, mVersionData.getVer_name(), clickListener);
     }
 
     @Override
-    public ProgressDialog doShowProgressDialog(DialogInterface.OnClickListener cancelListener)
-    {
+    public ProgressDialog doShowProgressDialog(DialogInterface.OnClickListener cancelListener) {
         return MainUtil.ShowProgressDialog(mContext, cancelListener);
     }
 
-    private void doUpdate()
-    {
+    private void doUpdate() {
         // 检查服务器最新版本
         Api.simpleApi(Api.getVersion(), mActivity.<ApiReturn<VersionData>>bindToLifecycle())
-           .subscribe(new Action1<ApiReturn<VersionData>>()
-                      {
-                          @Override
-                          public void call(ApiReturn<VersionData> versionDataApiReturn)
-                          {
-                              mVersionData = versionDataApiReturn.data;
+                .subscribe(new Action1<ApiReturn<VersionData>>() {
+                               @Override
+                               public void call(ApiReturn<VersionData> versionDataApiReturn) {
+                                   mVersionData = versionDataApiReturn.data;
 
-                              int versionCode = ApkUtils.getVersionCode(mContext);
-                              int ver_code = versionDataApiReturn.data.getVer_code();
-                              if (ver_code > versionCode)
-                              {
-                                  mMainView.showUpdateDialog();
-                              }
-                          }
-                      },
-                      new Action1<Throwable>()
-                      {
-                          @Override
-                          public void call(Throwable throwable)
-                          {
-                              T.showShort(mContext, throwable.getMessage());
-                          }
-                      });
+                                   int versionCode = ApkUtils.getVersionCode(mContext);
+                                   int ver_code = versionDataApiReturn.data.getVer_code();
+                                   if (ver_code > versionCode) {
+                                       mMainView.showUpdateDialog();
+                                   }
+                               }
+                           },
+                        new Action1<Throwable>() {
+                            @Override
+                            public void call(Throwable throwable) {
+                                T.showShort(mContext, throwable.getMessage());
+                            }
+                        });
     }
 
 
@@ -238,59 +209,48 @@ public class MainPresenter implements MainContract.Presenter
     private int mProgressOldPos;
 
     @Override
-    public void downloadApp()
-    {
+    public void downloadApp() {
         if (ContextCompat.checkSelfPermission(mContext,
-                                              Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED)
-        {
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
             // Should we show an explanation?
             if (ActivityCompat.shouldShowRequestPermissionRationale(mActivity,
-                                                                    Manifest.permission
-                                                                            .WRITE_EXTERNAL_STORAGE))
-            {
+                    Manifest.permission
+                            .WRITE_EXTERNAL_STORAGE)) {
 
                 // Show an expanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
                 return;
-            }
-            else
-            {
+            } else {
 
                 // No explanation needed, we can request the permission.
 
                 ActivityCompat.requestPermissions(mActivity,
-                                                  new String[]{Manifest.permission
-                                                                       .WRITE_EXTERNAL_STORAGE},
-                                                  AppConst.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+                        new String[]{Manifest.permission
+                                .WRITE_EXTERNAL_STORAGE},
+                        AppConst.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
                 // MY_PERMISSIONS_REQUEST_READ_READ_PHONE_STATE is an
                 // app-defined int constant. The callback method gets the
                 // result of the request.
             }
-        }
-        else
-        {
+        } else {
 
         }
 
         mTaskDownload = startDownloadApp(mActivity, mVersionData.getUrl(),
-                                         new DownloadReceiver());
+                new DownloadReceiver());
 
         final ScheduledExecutorService ses = Executors.newSingleThreadScheduledExecutor();
-        ses.scheduleAtFixedRate(new Runnable()
-        {
+        ses.scheduleAtFixedRate(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 int pos = MainUtil.queryDownload(mActivity, mTaskDownload);
-                if (pos > mProgressOldPos)
-                {
+                if (pos > mProgressOldPos) {
                     mMainView.changeProgress(pos);
                     mProgressOldPos = pos;
                 }
-                if (pos == 100)
-                {
+                if (pos == 100) {
                     ses.shutdown();
                     mMainView.dismissProgressDialog();
                 }
@@ -301,35 +261,27 @@ public class MainPresenter implements MainContract.Presenter
     }
 
     @Override
-    public void cancelDownloadApp()
-    {
+    public void cancelDownloadApp() {
         DownloadManager downloadManager = (DownloadManager) mActivity
                 .getSystemService(DOWNLOAD_SERVICE);
         downloadManager.remove(mTaskDownload);
         T.showLong(mContext, "cancelled download");
     }
 
-    class DownloadReceiver extends BroadcastReceiver
-    {
+    class DownloadReceiver extends BroadcastReceiver {
         @Override
-        public void onReceive(Context context, Intent intent)
-        {
-            if (intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1) == mTaskDownload)
-            {
-                if (intent.getAction().equals(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
-                {
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1) == mTaskDownload) {
+                if (intent.getAction().equals(DownloadManager.ACTION_DOWNLOAD_COMPLETE)) {
                     DownloadManager downloadManager = (DownloadManager) context
-                            .getSystemService(context.DOWNLOAD_SERVICE);
+                            .getSystemService(DOWNLOAD_SERVICE);
                     Uri uriForDownloadedFile = downloadManager.getUriForDownloadedFile(mTaskDownload);
-                    if(uriForDownloadedFile != null)
-                    {
+                    if (uriForDownloadedFile != null) {
                         Toast.makeText(mContext, "升级文件下载已经完成！", Toast.LENGTH_SHORT)
-                             .show();
+                                .show();
                         ApkUtils.installAPK(context, uriForDownloadedFile, null);
                     }
-                }
-                else if (intent.getAction().equals(DownloadManager.ACTION_NOTIFICATION_CLICKED))
-                {
+                } else if (intent.getAction().equals(DownloadManager.ACTION_NOTIFICATION_CLICKED)) {
 //                    Toast.makeText(mContext, "别瞎点！！！", Toast.LENGTH_SHORT).show();
                 }
             }

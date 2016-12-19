@@ -2,6 +2,7 @@ package com.example.ygh.ttbd.main;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.example.ygh.ttbd.AppConst;
 import com.example.ygh.ttbd.R;
 import com.example.ygh.ttbd.databinding.ActivityMainBinding;
+import com.example.ygh.ttbd.guide.GuideActivity;
 import com.example.ygh.ttbd.util.T;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
@@ -126,7 +128,7 @@ public class MainActivity extends RxAppCompatActivity implements View.OnClickLis
     @Override
     public void showGuidePages()
     {
-
+        startActivity(new Intent(this, GuideActivity.class));
     }
 
     // 显示欢迎页
@@ -137,7 +139,7 @@ public class MainActivity extends RxAppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View view)
     {
-        if (view.getId() == R.id.hello)
+//        if (view.getId() == R.id.hello)
         {
             T.showShort(MainActivity.this, "clicked me");
         }

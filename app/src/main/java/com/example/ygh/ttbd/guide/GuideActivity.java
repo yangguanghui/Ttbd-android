@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 
 import com.example.ygh.ttbd.R;
 import com.github.paolorotolo.appintro.AppIntro;
-import com.github.paolorotolo.appintro.AppIntro2Fragment;
 import com.github.paolorotolo.appintro.AppIntroFragment;
 
 public class GuideActivity extends AppIntro
@@ -29,10 +28,10 @@ public class GuideActivity extends AppIntro
 
         // Instead of fragments, you can also use our default slide
         // Just set a title, description, background and image. AppIntro will do the rest.
-        addSlide(AppIntroFragment.newInstance("title", "description",
-                                              R.drawable.ic_navigate_next_white,Color.parseColor("#55AA88")));
-        addSlide(AppIntro2Fragment.newInstance("title", "description",
-                                               R.drawable.ic_navigate_next_white, Color.parseColor("#883388")));
+        addSlide(AppIntroFragment.newInstance("欢迎使用", "详细介绍",
+                R.drawable.ic_navigate_next_white,Color.parseColor("#55AA88")));
+        addSlide(AppIntroFragment.newInstance("欢迎使用", "详细介绍",
+                R.drawable.ic_navigate_next_white, Color.parseColor("#883388")));
 
         // OPTIONAL METHODS
         // Override bar/separator color.
@@ -41,7 +40,9 @@ public class GuideActivity extends AppIntro
 
         // Hide Skip/Done button.
         showSkipButton(false);
-        setProgressButtonEnabled(false);
+        setProgressButtonEnabled(true);
+
+        setDoneText("开始使用");
 
         // Turn vibration on and set intensity.
         // NOTE: you will probably need to ask VIBRATE permission in Manifest.
@@ -61,6 +62,7 @@ public class GuideActivity extends AppIntro
     {
         super.onDonePressed(currentFragment);
         // Do something when users tap on Done button.
+        finish();
     }
 
     @Override
