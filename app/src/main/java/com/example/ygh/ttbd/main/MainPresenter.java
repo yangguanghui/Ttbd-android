@@ -15,9 +15,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.ygh.ttbd.Api;
-import com.example.ygh.ttbd.ApiReturn;
+import com.example.ygh.ttbd.data.ApiReturn;
 import com.example.ygh.ttbd.AppConst;
-import com.example.ygh.ttbd.ViewModel.VersionData;
+import com.example.ygh.ttbd.data.ViewModel.VersionData;
 import com.example.ygh.ttbd.util.ApkUtils;
 import com.example.ygh.ttbd.util.NetConnectUtil;
 import com.example.ygh.ttbd.util.PreferencesUtils;

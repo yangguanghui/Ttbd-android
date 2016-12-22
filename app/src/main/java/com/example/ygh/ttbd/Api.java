@@ -1,13 +1,15 @@
 package com.example.ygh.ttbd;
 
-import com.example.ygh.ttbd.ViewModel.VersionData;
-import com.example.ygh.ttbd.retrofit.ApiInterface;
+import com.example.ygh.ttbd.data.ApiReturn;
+import com.example.ygh.ttbd.data.ViewModel.VersionData;
+import com.example.ygh.ttbd.data.get.Banner;
+import com.example.ygh.ttbd.data.get.News;
 import com.example.ygh.ttbd.retrofit.ServiceGenerator;
 
+import java.util.List;
 import java.util.Map;
 
 import rx.Observable;
-import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -51,7 +53,6 @@ public class Api
         return ServiceGenerator.createService(ApiInterface.class).installUpdate(installMap);
     }
 
-
     public static Observable<ApiReturn<VersionData>> getVersion()
     {
         return ServiceGenerator.createService(ApiInterface.class).getVersion();
@@ -62,4 +63,13 @@ public class Api
         return ServiceGenerator.createService(ApiInterface.class).getVersion1();
     }
 
+    public static Observable<ApiReturn<List<Banner>>> getBanners()
+    {
+        return ServiceGenerator.createService(ApiInterface.class).getBanners();
+    }
+
+    public static Observable<ApiReturn<List<News>>> getNews()
+    {
+        return ServiceGenerator.createService(ApiInterface.class).getNews();
+    }
 }

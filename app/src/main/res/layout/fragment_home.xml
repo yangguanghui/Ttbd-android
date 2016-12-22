@@ -1,13 +1,68 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.ygh.ttbd.home.HomeFragment">
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="com.example.ygh.ttbd.home.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.bigkoo.convenientbanner.ConvenientBanner
+                android:id="@+id/bannerHome"
+                android:layout_width="0dp"
+                android:layout_height="190dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <SearchView
+                android:id="@+id/searchViewHome"
+                android:layout_width="0dp"
+                android:layout_height="28dp"
+                android:layout_marginEnd="48dp"
+                android:layout_marginLeft="48dp"
+                android:layout_marginRight="48dp"
+                android:layout_marginStart="48dp"
+                android:layout_marginTop="8dp"
+                android:background="#66dddddd"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/bannerHome"/>
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/homeTab"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bannerHome"
+                app:layout_constraintVertical_bias="0.0"
+                >
+
+            </android.support.design.widget.TabLayout>
+
+            <com.example.ygh.ttbd.WrapContentHeightViewPager
+                android:id="@+id/homeViewPager"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/homeTab">
+
+            </com.example.ygh.ttbd.WrapContentHeightViewPager>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </ScrollView>
 
 </FrameLayout>

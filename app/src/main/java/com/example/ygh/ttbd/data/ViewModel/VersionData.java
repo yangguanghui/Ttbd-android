@@ -1,4 +1,4 @@
-package com.example.ygh.ttbd.ViewModel;
+package com.example.ygh.ttbd.data.ViewModel;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;

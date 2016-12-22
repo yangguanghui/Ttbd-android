@@ -73,6 +73,7 @@ public class MainActivity extends RxAppCompatActivity implements View.OnClickLis
                 .addItem(new BottomNavigationItem(android.R.drawable.sym_def_app_icon, "home"))
                 .setFirstSelectedPosition(0).setTabSelectedListener(this)
                 .initialise();
+        this.onTabSelected(0);
     }
 
     @Override

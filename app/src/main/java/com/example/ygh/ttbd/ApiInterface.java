@@ -1,15 +1,16 @@
-package com.example.ygh.ttbd.retrofit;
+package com.example.ygh.ttbd;
 
-import com.example.ygh.ttbd.ApiReturn;
-import com.example.ygh.ttbd.ViewModel.VersionData;
+import com.example.ygh.ttbd.data.ApiReturn;
+import com.example.ygh.ttbd.data.ViewModel.VersionData;
+import com.example.ygh.ttbd.data.get.Banner;
+import com.example.ygh.ttbd.data.get.News;
 
+import java.util.List;
 import java.util.Map;
 
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import rx.Observable;
 
@@ -33,4 +34,10 @@ public interface ApiInterface
     @FormUrlEncoded
     @POST("install/update")
     Observable<ApiReturn<Object>> installUpdate(@FieldMap Map<String,String> versionData);
+
+    @GET("banner")
+    Observable<ApiReturn<List<Banner>>> getBanners();
+
+    @GET("news")
+    Observable<ApiReturn<List<News>>> getNews();
 }

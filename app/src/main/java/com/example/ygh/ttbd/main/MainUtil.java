@@ -15,14 +15,13 @@ import android.util.Log;
 
 import com.example.ygh.ttbd.AppConst;
 import com.example.ygh.ttbd.BuildConfig;
-import com.example.ygh.ttbd.DataClass;
+import com.example.ygh.ttbd.data.post.Install;
 import com.example.ygh.ttbd.util.ApkUtils;
 import com.example.ygh.ttbd.util.MapUtils;
 import com.example.ygh.ttbd.util.SystemUtils;
 
 import java.util.Map;
 
-import static android.content.ContentValues.TAG;
 import static android.content.Context.DOWNLOAD_SERVICE;
 
 /**
@@ -67,7 +66,7 @@ class MainUtil
     {
         int ver_code = ApkUtils.getVersionCode(context);
         String ver_name = ApkUtils.getVersionName(context);
-        DataClass.Install data = new DataClass().new Install();
+        Install data = new Install();
         data.device_id = SystemUtils.getDeviceId(context);
         data.is_first = isFirstInstall ? 1 : 0;
         data.os_type = 0;
@@ -113,7 +112,7 @@ class MainUtil
                 .getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
         int so_far_size = cursor.getInt(cursor.getColumnIndex(
                 DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
-        Log.e(TAG, "queryDownload: " + total_size + " | " + so_far_size);
+        Log.e(activity.toString(), "queryDownload: " + total_size + " | " + so_far_size);
         int pos = (int)(100 * ((float)so_far_size / (float) total_size));
         if (cursor.getInt(
                 cursor.getColumnIndex(
