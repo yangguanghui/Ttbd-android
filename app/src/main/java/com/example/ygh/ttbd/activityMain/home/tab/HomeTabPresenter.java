@@ -1,10 +1,9 @@
-package com.example.ygh.ttbd.home.tab;
+package com.example.ygh.ttbd.activityMain.home.tab;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.example.ygh.ttbd.data.contract.SourceListContract;
-import com.example.ygh.ttbd.data.get.News;
 import com.trello.rxlifecycle.components.support.RxFragment;
 
 import java.util.List;
@@ -38,22 +37,7 @@ public class HomeTabPresenter implements HomeTabContract.Presenter
         @Override
         public void onSuccess(List list)
         {
-            if (!list.isEmpty())
-            {
-                Object object = list.get(0);
-                if (object instanceof News)
-                {
-                    mHomeTabView.showNewsList((List<News>) list);
-                }
-                else if (object instanceof News)
-                {
-                    mHomeTabView.showNewsList((List<News>) list);
-                }
-                else if (object instanceof News)
-                {
-                    mHomeTabView.showNewsList((List<News>) list);
-                }
-            }
+            mHomeTabView.showList(list);
         }
 
         @Override
@@ -66,7 +50,7 @@ public class HomeTabPresenter implements HomeTabContract.Presenter
     @Override
     public void start()
     {
-        mHomeTabRepository.loadNewsList(mLoadListCallback);
+        mHomeTabRepository.loadList(mLoadListCallback);
     }
 
 }

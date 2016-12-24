@@ -2,10 +2,11 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
-             tools:context="com.example.ygh.ttbd.home.tab.HomeTabFragment">
+             tools:context="com.example.ygh.ttbd.activityMain.home.tab.HomeTabFragment">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/newsRecyclerView"
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:nestedScrollingEnabled="false"/>
 </FrameLayout>

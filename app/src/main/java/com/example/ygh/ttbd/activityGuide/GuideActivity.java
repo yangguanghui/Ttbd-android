@@ -1,4 +1,4 @@
-package com.example.ygh.ttbd.guide;
+package com.example.ygh.ttbd.activityGuide;
 
 import android.graphics.Color;
 import android.os.Bundle;

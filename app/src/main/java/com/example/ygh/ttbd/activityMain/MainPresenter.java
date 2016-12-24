@@ -1,4 +1,4 @@
-package com.example.ygh.ttbd.main;
+package com.example.ygh.ttbd.activityMain;
 
 import android.Manifest;
 import android.app.DownloadManager;
@@ -33,7 +33,7 @@ import rx.functions.Action1;
 
 import static android.content.ContentValues.TAG;
 import static android.content.Context.DOWNLOAD_SERVICE;
-import static com.example.ygh.ttbd.main.MainUtil.startDownloadApp;
+import static com.example.ygh.ttbd.activityMain.MainUtil.startDownloadApp;
 
 /**
  * Created by ygh on 2016/12/15.

@@ -4,6 +4,7 @@ import com.example.ygh.ttbd.data.ApiReturn;
 import com.example.ygh.ttbd.data.ViewModel.VersionData;
 import com.example.ygh.ttbd.data.get.Banner;
 import com.example.ygh.ttbd.data.get.News;
+import com.example.ygh.ttbd.data.get.Notice;
 
 import java.util.List;
 import java.util.Map;
@@ -40,4 +41,7 @@ public interface ApiInterface
 
     @GET("news")
     Observable<ApiReturn<List<News>>> getNews();
+
+    @GET("notice")
+    Observable<ApiReturn<List<Notice>>> getNotice();
 }

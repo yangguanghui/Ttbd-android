@@ -1,4 +1,4 @@
-package com.example.ygh.ttbd.main;
+package com.example.ygh.ttbd.activityMain;
 
 import android.app.Activity;
 import android.app.AlertDialog;

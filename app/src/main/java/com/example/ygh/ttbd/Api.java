@@ -4,6 +4,7 @@ import com.example.ygh.ttbd.data.ApiReturn;
 import com.example.ygh.ttbd.data.ViewModel.VersionData;
 import com.example.ygh.ttbd.data.get.Banner;
 import com.example.ygh.ttbd.data.get.News;
+import com.example.ygh.ttbd.data.get.Notice;
 import com.example.ygh.ttbd.retrofit.ServiceGenerator;
 
 import java.util.List;
@@ -71,5 +72,10 @@ public class Api
     public static Observable<ApiReturn<List<News>>> getNews()
     {
         return ServiceGenerator.createService(ApiInterface.class).getNews();
+    }
+
+    public static Observable<ApiReturn<List<Notice>>> getNotice()
+    {
+        return ServiceGenerator.createService(ApiInterface.class).getNotice();
     }
 }

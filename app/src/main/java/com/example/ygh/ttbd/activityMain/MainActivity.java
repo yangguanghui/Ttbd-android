@@ -1,4 +1,4 @@
-package com.example.ygh.ttbd.main;
+package com.example.ygh.ttbd.activityMain;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -17,7 +17,7 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.example.ygh.ttbd.AppConst;
 import com.example.ygh.ttbd.R;
 import com.example.ygh.ttbd.databinding.ActivityMainBinding;
-import com.example.ygh.ttbd.home.HomeFragment;
+import com.example.ygh.ttbd.activityMain.home.HomeFragment;
 import com.example.ygh.ttbd.util.T;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 

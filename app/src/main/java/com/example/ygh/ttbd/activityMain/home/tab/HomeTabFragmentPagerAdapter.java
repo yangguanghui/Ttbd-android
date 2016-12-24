@@ -1,4 +1,4 @@
-package com.example.ygh.ttbd.home.tab;
+package com.example.ygh.ttbd.activityMain.home.tab;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +14,7 @@ import java.util.List;
 public class HomeTabFragmentPagerAdapter extends FragmentPagerAdapter
 {
     List<Fragment> mFragments;
+
     public HomeTabFragmentPagerAdapter(FragmentManager fm, List<Fragment> fragments)
     {
         super(fm);
@@ -38,4 +39,5 @@ public class HomeTabFragmentPagerAdapter extends FragmentPagerAdapter
         Bundle arguments = mFragments.get(position).getArguments();
         return arguments.getString("title");
     }
+
 }

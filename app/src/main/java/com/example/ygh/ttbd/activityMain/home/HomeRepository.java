@@ -1,4 +1,4 @@
-package com.example.ygh.ttbd.home;
+package com.example.ygh.ttbd.activityMain.home;
 
 import com.example.ygh.ttbd.data.contract.SourceListContract;
 import com.example.ygh.ttbd.data.source.BannerSource;

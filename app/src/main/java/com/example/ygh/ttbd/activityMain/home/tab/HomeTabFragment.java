@@ -1,33 +1,36 @@
-package com.example.ygh.ttbd.home.tab;
+package com.example.ygh.ttbd.activityMain.home.tab;
 
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.ygh.ttbd.R;
-import com.example.ygh.ttbd.data.get.News;
+import com.example.ygh.ttbd.activityDetail.DetailActivity;
 import com.trello.rxlifecycle.components.support.RxFragment;
 
 import java.util.List;
 
 public class HomeTabFragment extends RxFragment implements HomeTabContract.view
 {
-    protected View         rootView;
-    protected RecyclerView mNewsRecyclerView;
-    private HomeTabContract.Presenter mPresenter;
+    protected View                      rootView;
+    protected RecyclerView              mRecyclerView;
+    private   HomeTabContract.Presenter mPresenter;
+    private   View.OnClickListener      mOnClickListener;
 
     public static HomeTabFragment newInstance(String title)
     {
         Bundle arguments = new Bundle();
         arguments.putString("title", title);
-        HomeTabFragment frament = new HomeTabFragment();
-        frament.setArguments(arguments);
-        return frament;
+        HomeTabFragment fragment = new HomeTabFragment();
+        fragment.setArguments(arguments);
+        return fragment;
     }
 
     @Override
@@ -49,8 +52,8 @@ public class HomeTabFragment extends RxFragment implements HomeTabContract.view
 
     private void initView(View rootView)
     {
-        mNewsRecyclerView = (RecyclerView) rootView.findViewById(R.id.newsRecyclerView);
-        mNewsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     @Override
@@ -58,12 +61,6 @@ public class HomeTabFragment extends RxFragment implements HomeTabContract.view
     {
         super.onResume();
         mPresenter.start();
-    }
-
-    @Override
-    public void showList()
-    {
-
     }
 
     @Override
@@ -79,9 +76,27 @@ public class HomeTabFragment extends RxFragment implements HomeTabContract.view
     }
 
     @Override
-    public void showNewsList(List<News> list)
+    public void showList(List list)
     {
-        mNewsRecyclerView.setAdapter(new HomeTabNewsRecycleViewAdapter(getContext(),list));
+        final String title = getArguments().getString("title");
+        mOnClickListener = createOnClickListenr(title);
+        mRecyclerView.setAdapter(new HomeTabRecycleViewAdapter(getContext(), list, title, mOnClickListener));
+    }
+
+    private View.OnClickListener createOnClickListenr(final String title)
+    {
+        return new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(getActivity(), DetailActivity.class);
+                intent.putExtra("title", title);
+                startActivity(intent);
+                Log.e(this.toString(),
+                      "onClick: Start DetailActivity with title < " + title + " >");
+            }
+        };
     }
 
     @Override

@@ -1,10 +1,11 @@
-package com.example.ygh.ttbd.home;
+package com.example.ygh.ttbd.activityMain.home;
 
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.NestedScrollView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +15,8 @@ import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.example.ygh.ttbd.ImageHolderView;
 import com.example.ygh.ttbd.R;
-import com.example.ygh.ttbd.home.tab.HomeTabFragment;
-import com.example.ygh.ttbd.home.tab.HomeTabFragmentPagerAdapter;
+import com.example.ygh.ttbd.activityMain.home.tab.HomeTabFragment;
+import com.example.ygh.ttbd.activityMain.home.tab.HomeTabFragmentPagerAdapter;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -34,6 +35,7 @@ public class HomeFragment extends RxFragment implements View.OnClickListener,
     protected SearchView             mSearchViewHome;
     protected TabLayout              mHomeTab;
     protected ViewPager              mHomeViewPager;
+    protected NestedScrollView       mHomeTabScrollView;
     private   HomeContract.Presenter mPresenter;
     private List<Fragment> mFragments = new ArrayList<>();
 
@@ -90,6 +92,7 @@ public class HomeFragment extends RxFragment implements View.OnClickListener,
         mSearchViewHome = (SearchView) rootView.findViewById(R.id.searchViewHome);
         mSearchViewHome.setOnClickListener(HomeFragment.this);
         mHomeTab = (TabLayout) rootView.findViewById(R.id.homeTab);
+        mHomeTabScrollView = (NestedScrollView) rootView.findViewById(R.id.homeTabScrollView);
         mHomeViewPager = (ViewPager) rootView.findViewById(R.id.homeViewPager);
         mFragments.add(HomeTabFragment.newInstance("News"));
         mFragments.add(HomeTabFragment.newInstance("Notice"));
@@ -101,6 +104,7 @@ public class HomeFragment extends RxFragment implements View.OnClickListener,
         mHomeViewPager.setAdapter(homeTabFragmentPagerAdapter);
         mHomeTab.setTabMode(TabLayout.MODE_FIXED);
         mHomeTab.setupWithViewPager(mHomeViewPager);
+
     }
 
     //初始化网络图片缓存库

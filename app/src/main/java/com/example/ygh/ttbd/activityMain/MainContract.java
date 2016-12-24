@@ -1,7 +1,6 @@
-package com.example.ygh.ttbd.main;
+package com.example.ygh.ttbd.activityMain;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 
 import com.example.ygh.ttbd.BasePresenter;

@@ -1,4 +1,4 @@
-package com.example.ygh.ttbd.home;
+package com.example.ygh.ttbd.activityMain.home;
 
 import android.util.Log;
 
