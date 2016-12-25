@@ -104,8 +104,33 @@ public class HomeFragment extends RxFragment implements View.OnClickListener,
         mHomeViewPager.setAdapter(homeTabFragmentPagerAdapter);
         mHomeTab.setTabMode(TabLayout.MODE_FIXED);
         mHomeTab.setupWithViewPager(mHomeViewPager);
-
+        mHomeTab.addOnTabSelectedListener(mOntabSelectedListenner);
     }
+
+    TabLayout.OnTabSelectedListener mOntabSelectedListenner = new TabLayout
+            .OnTabSelectedListener()
+    {
+        @Override
+        public void onTabSelected(TabLayout.Tab tab)
+        {
+            int id = tab.getPosition();
+            int y = ((HomeTabFragment) mFragments.get(id)).getCurrentY();
+            mHomeTabScrollView.scrollTo(0, y);
+        }
+
+        @Override
+        public void onTabUnselected(TabLayout.Tab tab)
+        {
+            int id = tab.getPosition();
+            int y = mHomeTabScrollView.getScrollY();
+            ((HomeTabFragment) mFragments.get(id)).setCurrentY(y);
+        }
+
+        @Override
+        public void onTabReselected(TabLayout.Tab tab)
+        {
+        }
+    };
 
     //初始化网络图片缓存库
     private void initImageLoader()

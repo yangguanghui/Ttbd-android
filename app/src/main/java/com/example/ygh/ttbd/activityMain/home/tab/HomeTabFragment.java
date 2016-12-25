@@ -4,6 +4,7 @@ package com.example.ygh.ttbd.activityMain.home.tab;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,8 +22,10 @@ public class HomeTabFragment extends RxFragment implements HomeTabContract.view
 {
     protected View                      rootView;
     protected RecyclerView              mRecyclerView;
+    protected SwipeRefreshLayout        mSwipeRefreshLayout;
     private   HomeTabContract.Presenter mPresenter;
     private   View.OnClickListener      mOnClickListener;
+    private   int                       mCurrentY;
 
     public static HomeTabFragment newInstance(String title)
     {
@@ -54,6 +57,20 @@ public class HomeTabFragment extends RxFragment implements HomeTabContract.view
     {
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mSwipeRefreshLayout = (SwipeRefreshLayout) rootView
+                .findViewById(R.id.swipeRefreshLayout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
+        {
+            @Override
+            public void onRefresh()
+            {
+                if (!mSwipeRefreshLayout.isRefreshing())
+                {
+                    mSwipeRefreshLayout.setRefreshing(true);
+//                    mPresenter.refresh();
+                }
+            }
+        });
     }
 
     @Override
@@ -80,7 +97,8 @@ public class HomeTabFragment extends RxFragment implements HomeTabContract.view
     {
         final String title = getArguments().getString("title");
         mOnClickListener = createOnClickListenr(title);
-        mRecyclerView.setAdapter(new HomeTabRecycleViewAdapter(getContext(), list, title, mOnClickListener));
+        mRecyclerView.setAdapter(
+                new HomeTabRecycleViewAdapter(getContext(), list, title, mOnClickListener));
     }
 
     private View.OnClickListener createOnClickListenr(final String title)
@@ -103,5 +121,15 @@ public class HomeTabFragment extends RxFragment implements HomeTabContract.view
     public void setPresenter(HomeTabContract.Presenter presenter)
     {
         mPresenter = presenter;
+    }
+
+    public int getCurrentY()
+    {
+        return mCurrentY;
+    }
+
+    public void setCurrentY(int currentY)
+    {
+        mCurrentY = currentY;
     }
 }
