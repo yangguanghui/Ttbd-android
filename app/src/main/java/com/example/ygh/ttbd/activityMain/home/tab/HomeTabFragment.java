@@ -2,9 +2,9 @@ package com.example.ygh.ttbd.activityMain.home.tab;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.ygh.ttbd.R;
+import com.example.ygh.ttbd.WrapContentHeightSwipeRefresh;
 import com.example.ygh.ttbd.activityDetail.DetailActivity;
 import com.trello.rxlifecycle.components.support.RxFragment;
 
@@ -20,12 +21,13 @@ import java.util.List;
 
 public class HomeTabFragment extends RxFragment implements HomeTabContract.view
 {
-    protected View                      rootView;
-    protected RecyclerView              mRecyclerView;
-    protected SwipeRefreshLayout        mSwipeRefreshLayout;
-    private   HomeTabContract.Presenter mPresenter;
-    private   View.OnClickListener      mOnClickListener;
-    private   int                       mCurrentY;
+    protected View                          rootView;
+    protected RecyclerView                  mRecyclerView;
+    protected WrapContentHeightSwipeRefresh mSwipeRefreshLayout;
+    private   HomeTabContract.Presenter     mPresenter;
+    private   View.OnClickListener          mOnClickListener;
+    private   int                           mCurrentY;
+    private   HomeTabRecycleViewAdapter     mHomeTabRecycleViewAdapter;
 
     public static HomeTabFragment newInstance(String title)
     {
@@ -56,18 +58,48 @@ public class HomeTabFragment extends RxFragment implements HomeTabContract.view
     private void initView(View rootView)
     {
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mSwipeRefreshLayout = (SwipeRefreshLayout) rootView
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+        mSwipeRefreshLayout = (WrapContentHeightSwipeRefresh) rootView
                 .findViewById(R.id.swipeRefreshLayout);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
+        mSwipeRefreshLayout.setColorSchemeColors(Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW);
+        mSwipeRefreshLayout
+                .setOnRefreshListener(new WrapContentHeightSwipeRefresh.OnRefreshListener()
+                {
+                    @Override
+                    public void onRefresh()
+                    {
+                        if (!mSwipeRefreshLayout.isRefreshing())
+                        {
+                            mPresenter.refresh();
+                        }
+                    }
+                });
+        final String title = getArguments().getString("title");
+        mOnClickListener = createOnClickListenr(title);
+        mHomeTabRecycleViewAdapter = new HomeTabRecycleViewAdapter(getContext(), null, title,
+                                                                   mOnClickListener);
+        mRecyclerView.setAdapter(mHomeTabRecycleViewAdapter);
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener()
         {
+            private int lastPosition;
             @Override
-            public void onRefresh()
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy)
             {
-                if (!mSwipeRefreshLayout.isRefreshing())
+                super.onScrolled(recyclerView, dx, dy);
+                lastPosition = linearLayoutManager.findLastVisibleItemPosition();
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState)
+            {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE
+                        && lastPosition + 1 == mHomeTabRecycleViewAdapter
+                        .getItemCount())
                 {
                     mSwipeRefreshLayout.setRefreshing(true);
-//                    mPresenter.refresh();
+                    mPresenter.refresh();
                 }
             }
         });
@@ -81,9 +113,10 @@ public class HomeTabFragment extends RxFragment implements HomeTabContract.view
     }
 
     @Override
-    public void reloadList()
+    public void refreshList(List list)
     {
-
+        showList(list);
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -95,10 +128,7 @@ public class HomeTabFragment extends RxFragment implements HomeTabContract.view
     @Override
     public void showList(List list)
     {
-        final String title = getArguments().getString("title");
-        mOnClickListener = createOnClickListenr(title);
-        mRecyclerView.setAdapter(
-                new HomeTabRecycleViewAdapter(getContext(), list, title, mOnClickListener));
+        mHomeTabRecycleViewAdapter.setList(list);
     }
 
     private View.OnClickListener createOnClickListenr(final String title)

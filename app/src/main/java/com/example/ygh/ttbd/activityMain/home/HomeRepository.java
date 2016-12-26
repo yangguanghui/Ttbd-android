@@ -22,6 +22,6 @@ public class HomeRepository
 
     void loadBanners(SourceListContract.LoadListCallback callback)
     {
-        mBannerSource.loadList(mFrament, callback);
+        mBannerSource.loadList(1, mFrament, callback);
     }
 }

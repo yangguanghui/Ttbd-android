@@ -33,7 +33,7 @@ public class NoticeSource implements SourceListContract
     }
 
     @Override
-    public void loadList(RxFragment fragment, final LoadListCallback callback)
+    public void loadList(int page, RxFragment fragment, final LoadListCallback callback)
     {
         Api.simpleApi(Api.getNotice(), fragment.<ApiReturn<List<Notice>>>bindToLifecycle())
            .subscribe(new Action1<ApiReturn<List<Notice>>>()

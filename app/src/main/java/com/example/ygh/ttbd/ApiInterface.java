@@ -13,6 +13,7 @@ import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -40,7 +41,7 @@ public interface ApiInterface
     Observable<ApiReturn<List<Banner>>> getBanners();
 
     @GET("news")
-    Observable<ApiReturn<List<News>>> getNews();
+    Observable<ApiReturn<List<News>>> getNews(@Query("page") int page);
 
     @GET("notice")
     Observable<ApiReturn<List<Notice>>> getNotice();

@@ -33,9 +33,9 @@ public class NewsSource implements SourceListContract
     }
 
     @Override
-    public void loadList(RxFragment fragment, final LoadListCallback callback)
+    public void loadList(int page, RxFragment fragment, final LoadListCallback callback)
     {
-        Api.simpleApi(Api.getNews(), fragment.<ApiReturn<List<News>>>bindToLifecycle())
+        Api.simpleApi(Api.getNews(page), fragment.<ApiReturn<List<News>>>bindToLifecycle())
            .subscribe(new Action1<ApiReturn<List<News>>>()
            {
                @Override

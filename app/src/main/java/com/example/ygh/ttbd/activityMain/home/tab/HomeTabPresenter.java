@@ -47,10 +47,30 @@ public class HomeTabPresenter implements HomeTabContract.Presenter
         }
     };
 
+    public SourceListContract.LoadListCallback mLoadListRefreshCallback = new SourceListContract
+            .LoadListCallback()
+    {
+        @Override
+        public void onSuccess(List list)
+        {
+            mHomeTabView.refreshList(list);
+        }
+
+        @Override
+        public void onError(Throwable throwable)
+        {
+            Log.e(this.toString(), "onError: " + throwable.getMessage());
+        }
+    };
+
     @Override
     public void start()
     {
         mHomeTabRepository.loadList(mLoadListCallback);
     }
 
+    public void refresh()
+    {
+        mHomeTabRepository.loadList(mLoadListRefreshCallback);
+    }
 }

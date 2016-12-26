@@ -4,7 +4,7 @@
              android:layout_height="wrap_content"
              tools:context="com.example.ygh.ttbd.activityMain.home.tab.HomeTabFragment">
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <com.example.ygh.ttbd.WrapContentHeightSwipeRefresh
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -14,6 +14,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false"/>
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </com.example.ygh.ttbd.WrapContentHeightSwipeRefresh>
 
 </FrameLayout>

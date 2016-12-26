@@ -25,13 +25,14 @@ import static com.example.ygh.ttbd.R.id.imageView;
 
 public class HomeTabRecycleViewAdapter extends RecyclerView.Adapter
 {
-    private final LayoutInflater mLayoutInflater;
-    private final Context        mContext;
-    private       List           mList;
-    private       String         mTitle;
-    private View.OnClickListener mOnClickListenner;
+    private final LayoutInflater       mLayoutInflater;
+    private final Context              mContext;
+    private       List                 mList;
+    private       String               mTitle;
+    private       View.OnClickListener mOnClickListenner;
 
-    public HomeTabRecycleViewAdapter(Context context, List list, String title, View.OnClickListener onClickListener)
+    public HomeTabRecycleViewAdapter(Context context, List list, String title,
+                                     View.OnClickListener onClickListener)
     {
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
@@ -102,7 +103,17 @@ public class HomeTabRecycleViewAdapter extends RecyclerView.Adapter
     @Override
     public int getItemCount()
     {
-        return mList.size();
+        return null == mList ? 0 : mList.size();
+    }
+
+    public void setList(List list)
+    {
+        if (mList != null)
+        {
+            mList.clear();
+        }
+        mList = list;
+        notifyDataSetChanged();
     }
 
     public static class NewsViewHolder extends ViewHolder

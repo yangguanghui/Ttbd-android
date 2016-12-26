@@ -28,13 +28,13 @@ public class HomeTabRepository
         switch (title)
         {
             case "News":
-                mNewsSource.loadList(mFragment, callback);
+                mNewsSource.loadList(1,mFragment, callback);
                 break;
             case "Notice":
-                mNoticeSource.loadList(mFragment, callback);
+                mNoticeSource.loadList(1, mFragment, callback);
                 break;
             case "Faculty":
-                mNewsSource.loadList(mFragment, callback);
+                mNewsSource.loadList(1,mFragment, callback);
                 break;
             default:
                 break;

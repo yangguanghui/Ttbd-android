@@ -17,12 +17,14 @@ public interface HomeTabContract
     interface view extends BaseView<Presenter>
     {
         void showList(List list);
-        void reloadList();
+        void refreshList(List list);
         void showListClick(Uri uri);
 
     }
     interface Presenter extends BasePresenter
     {
         void showList(RecyclerView recyclerView);
+
+        void refresh();
     }
 }

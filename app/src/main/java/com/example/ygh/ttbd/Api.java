@@ -69,9 +69,9 @@ public class Api
         return ServiceGenerator.createService(ApiInterface.class).getBanners();
     }
 
-    public static Observable<ApiReturn<List<News>>> getNews()
+    public static Observable<ApiReturn<List<News>>> getNews(int page)
     {
-        return ServiceGenerator.createService(ApiInterface.class).getNews();
+        return ServiceGenerator.createService(ApiInterface.class).getNews(page);
     }
 
     public static Observable<ApiReturn<List<Notice>>> getNotice()

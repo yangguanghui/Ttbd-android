@@ -29,7 +29,7 @@ public class BannerSource implements SourceListContract
     }
 
     @Override
-    public void loadList(RxFragment fragment, final LoadListCallback callback)
+    public void loadList(int page, RxFragment fragment, final LoadListCallback callback)
     {
         Api.simpleApi(Api.getBanners(), fragment.<ApiReturn<List<Banner>>>bindToLifecycle())
            .subscribe(new Action1<ApiReturn<List<Banner>>>()

@@ -17,5 +17,5 @@ public interface SourceListContract
         void onError(Throwable throwable);
     }
 
-    void loadList(RxFragment fragment, final LoadListCallback callback);
+    void loadList(int page, RxFragment fragment, final LoadListCallback callback);
 }
